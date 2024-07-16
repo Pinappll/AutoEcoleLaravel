@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container p-4">
-    <h1 class="font-semibold text-2xl">Liste des Moniteurs</h1>
-    <a href="{{ route('moniteurs.create') }}" class="btn btn-primary">Ajouter un Moniteur</a>
+    <h1 class="font-semibold text-2xl">Liste des Étudiants</h1>
+    <a href="{{ route('students.create') }}" class="btn btn-primary">Ajouter un Étudiant</a>
     @if(session('success'))
         <div class="alert alert-success mt-3">
             {{ session('success') }}
@@ -19,15 +19,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($moniteurs as $moniteur)
+            @foreach ($students as $student)
                 <tr>
-                    <td class="border border-black border-4 m-2">{{ $moniteur->name }}</td>
-                    <td class="border border-black border-4 m-2">{{ $moniteur->email }}</td>
-                    <td class="border border-black border-4 m-2">{{ $moniteur->phone_number }}</td>
+                    <td class="border border-black border-4 m-2">{{ $student->name }}</td>
+                    <td class="border border-black border-4 m-2">{{ $student->email }}</td>
+                    <td class="border border-black border-4 m-2">{{ $student->phone_number }}</td>
                     <td class="border border-black border-4 m-2">
-                        <a href="{{ route('moniteurs.show', $moniteur->id) }}" class="btn btn-info">Voir</a>
-                        <a href="{{ route('moniteurs.edit', $moniteur->id) }}" class="btn btn-warning">Modifier</a>
-                        <form action="{{ route('moniteurs.destroy', $moniteur->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('students.show', $student->id) }}" class="btn btn-info">Voir</a>
+                        <a href="{{ route('students.edit', $student->id) }}" class="btn btn-warning">Modifier</a>
+                        <form action="{{ route('students.destroy', $student->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Supprimer</button>
@@ -37,7 +37,8 @@
             @endforeach
         </tbody>
     </table>
-</div>
-<a href="{{ route('dashboard') }}" class="text-blue-500 hover:text-blue-700">{{ __('Retour') }}</a>
+   <a href="{{ route('dashboard') }}" class="text-blue-500 hover:text-blue-700">{{ __('Retour') }}</a>
 
+                
+</div>
 @endsection

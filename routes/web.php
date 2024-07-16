@@ -3,10 +3,10 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
-use App\Http\Controllers\EleveController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MoniteurController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,8 +34,7 @@ Route::middleware('auth')->group(function () {
 
 // eleve route
 Route::middleware(['auth'])->group(function () {
-    Route::post('/eleves/{id}', [EleveController::class, 'update'])->name('eleves.update');
-    Route::get('/eleves/{eleve}', [EleveController::class, 'show'])->name('eleves.show');
+    Route::resource('students', StudentController::class);
 });
 
 // moniteur route
