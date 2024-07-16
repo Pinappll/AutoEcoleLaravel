@@ -12,22 +12,22 @@
     <table class="table mt-3">
         <thead>
             <tr>
-                <th class="border border-black border-4 m-2">Marque</th>
-                <th class="border border-black border-4 m-2">Modèle</th>
-                <th class="border border-black border-4 m-2">Immatriculation</th>
-                <th class="border border-black border-4 m-2">Année</th>
-                <th class="border border-black border-4 m-2">Image</th>
-                <th class="border border-black border-4 m-2">Actions</th>
+                <th class=" border-black border-4 m-2">Marque</th>
+                <th class=" border-black border-4 m-2">Modèle</th>
+                <th class=" border-black border-4 m-2">Immatriculation</th>
+                <th class=" border-black border-4 m-2">Année</th>
+                <th class=" border-black border-4 m-2">Image</th>
+                <th class=" border-black border-4 m-2">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($cars as $car)
                 <tr>
-                    <td class="border border-black border-4 m-2">{{ $car->marque }}</td>
-                    <td class="border border-black border-4 m-2">{{ $car->modele }}</td>
-                    <td class="border border-black border-4 m-2">{{ $car->immatriculation }}</td>
-                    <td class="border border-black border-4 m-2">{{ $car->annee }}</td>
-                    <td class="border border-black border-4 m-2">
+                    <td class=" border-black border-4 m-2">{{ $car->marque }}</td>
+                    <td class=" border-black border-4 m-2">{{ $car->modele }}</td>
+                    <td class=" border-black border-4 m-2">{{ $car->immatriculation }}</td>
+                    <td class=" border-black border-4 m-2">{{ $car->annee }}</td>
+                    <td class=" border-black border-4 m-2">
                         @if($car->getFirstMediaUrl('car_images'))
                             <img src="{{ $car->getFirstMediaUrl('car_images', 'thumb') }}" alt="{{ $car->marque }}" width="100">
                         @else

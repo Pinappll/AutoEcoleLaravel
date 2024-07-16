@@ -7,6 +7,7 @@ use App\Http\Controllers\EleveController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MoniteurController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\LessonController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,6 +47,11 @@ Route::middleware(['auth'])->group(function () {
 // voiture route 
 Route::middleware(['auth'])->group(function () {
     Route::resource('cars', CarController::class);
+});
+
+// lesson route
+Route::middleware(['auth'])->group(function () {
+    Route::resource('lessons', LessonController::class);
 });
 
 
