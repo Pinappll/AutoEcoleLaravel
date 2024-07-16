@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container p-4">
-    <h1 class="font-semibold text-2xl">Liste des Élèves</h1>
-    <a href="{{ route('students.create') }}" class="btn btn-primary">Ajouter un Élève</a>
+    <h1 class="font-semibold text-2xl">Liste des Administrateurs</h1>
+    <a href="{{ route('admins.create') }}" class="btn btn-primary">Ajouter un Administrateur</a>
     @if(session('success'))
         <div class="alert alert-success mt-3">
             {{ session('success') }}
@@ -18,14 +18,14 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($students as $student)
+            @foreach ($admins as $admin)
                 <tr>
-                    <td>{{ $student->name }}</td>
-                    <td>{{ $student->email }}</td>
+                    <td>{{ $admin->name }}</td>
+                    <td>{{ $admin->email }}</td>
                     <td>
-                        <a href="{{ route('students.show', $student->id) }}" class="btn btn-info">Voir</a>
-                        <a href="{{ route('students.edit', $student->id) }}" class="btn btn-warning">Modifier</a>
-                        <form action="{{ route('students.destroy', $student->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('admins.show', $admin->id) }}" class="btn btn-info">Voir</a>
+                        <a href="{{ route('admins.edit', $admin->id) }}" class="btn btn-warning">Modifier</a>
+                        <form action="{{ route('admins.destroy', $admin->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Supprimer</button>

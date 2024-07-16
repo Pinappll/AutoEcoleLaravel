@@ -2,86 +2,90 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\View\View;
-use App\Models\User;
 
+use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        $eleves = User::where('status', 'eleve')->get();
-        $moniteurs = User::where('status', 'moniteur')->get();
-        // $voitures = Voiture::all();
-
-        return view('index', compact('eleves', 'moniteurs'));
-    }
-
-    public function edit($id): View
-    {
-        $eleve = User::findOrFail($id);
-        return view('admin.editUser', ['eleve' => $eleve]);
+        // Récupère tous les utilisateurs ayant le rôle 'admin'
+        $admins = User::role('admin')->get();
+        return view('admins.index', compact('admins'));
     }
 
     public function create()
     {
-        return view('eleves.create');
+        return view('admins.create');
     }
 
     public function store(Request $request)
     {
+        // Validation des données du formulaire
         $request->validate([
-            'nom' => 'required',
-            'status' => 'required',
-            'email' => 'required|email|unique:eleves',
-            'mot_de_passe' => 'required|min:8|confirmed',
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed'
         ]);
 
-        $user = new User();
-        $user->name = $request->nom;
-        $user->email = $request->email;
-        if($request->status == "admin"){
-            $user->admin = true;
-            $user->status = $request->status;
-        }else{
-            $user->status = $request->status;
-            $user->admin = false;
-        }
-        $user->password = Hash::make($request->mot_de_passe);
-        $user->save();
+        // Création d'un nouvel utilisateur
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-        return redirect()->route('admin')->with('success', 'Élève ajouté avec succès.');
+        // Assignation du rôle 'admin' à l'utilisateur
+        $user->assignRole('admin');
 
-        
+        return redirect()->route('admins.index')->with('success', 'Administrateur a été ajouté');
     }
 
-    public function updateUser(Request $request): RedirectResponse
+    public function show($id)
     {
-        $request->validate([
-            'nom' => 'required',
-            'email' => 'required',
-            'mot_de_passe' => 'nullable|min:8',
-        ]);
-        
-        $user = User::findOrFail($request->id);
-        $user->name = $request->nom;
-        $user->email = $request->email;
-        $user->address = $request->adresse;
-        $user->phone = $request->telephone;
-        $user->admin = $request->admin ?? $user->admin;
-        $user->status = $request->status ?? $user->status;
-    
-        if ($request->filled('mot_de_passe')) {
-            $user->password = Hash::make($request->mot_de_passe);
-        }
-    
-        $user->save();
-        return redirect()->route('admin');
+        // Récupération d'un utilisateur spécifique
+        $admin = User::findOrFail($id);
+        return view('admins.show', compact('admin'));
+    }
 
+    public function edit($id)
+    {
+        // Récupération d'un utilisateur spécifique pour édition
+        $admin = User::findOrFail($id);
+        return view('admins.edit', compact('admin'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validation des données du formulaire
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:6|confirmed'
+        ]);
+
+        // Mise à jour de l'utilisateur
+        $admin = User::findOrFail($id);
+        $admin->name = $request->name;
+        $admin->email = $request->email;
+        if ($request->filled('password')) {
+            $admin->password = Hash::make($request->password);
+        }
+        $admin->save();
+
+        return redirect()->route('admins.index')->with('success', 'Administrateur a été mis à jour');
+    }
+
+    public function destroy($id)
+    {
+        // Suppression de l'utilisateur
+        $admin = User::findOrFail($id);
+        $admin->delete();
+        return redirect()->route('admins.index')->with('success', 'Administrateur a été supprimé');
     }
 }

@@ -1,44 +1,49 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Student;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
+    
+
     public function index()
     {
-        $students = Student::all();
+        $students = User::role('eleve')->get();
         return view('students.index', compact('students'));
     }
 
     public function create()
     {
-        return view('students.create');
+        $users = User::all(); // Récupère tous les utilisateurs existants
+        return view('students.create', compact('users'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:students',
-            'phone_number' => 'required'
+            'user_id' => 'required|exists:users,id'
         ]);
 
-        Student::create($request->all());
+        $user = User::findOrFail($request->user_id);
+        $user->assignRole('eleve');
 
-        return redirect('/students')->with('success', 'Étudiant a été ajouté');
+        return redirect()->route('students.index')->with('success', 'Élève ajouté');
     }
 
     public function show($id)
     {
-        $student = Student::find($id);
+        $student = User::findOrFail($id);
         return view('students.show', compact('student'));
     }
 
     public function edit($id)
     {
-        $student = Student::find($id);
+        $student = User::findOrFail($id);
         return view('students.edit', compact('student'));
     }
 
@@ -46,20 +51,26 @@ class StudentController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:students,email,' . $id,
-            'phone_number' => 'required'
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:6|confirmed'
         ]);
 
-        $student = Student::find($id);
-        $student->update($request->all());
+        $student = User::findOrFail($id);
+        $student->name = $request->name;
+        $student->email = $request->email;
+        if ($request->filled('password')) {
+            $student->password = Hash::make($request->password);
+        }
+        $student->save();
 
-        return redirect('/students')->with('success', 'Étudiant a été mis à jour');
+        return redirect()->route('students.index')->with('success', 'Élève mis à jour');
     }
 
     public function destroy($id)
     {
-        $student = Student::find($id);
+        $student = User::findOrFail($id);
+        $student->removeRole('eleve');
         $student->delete();
-        return redirect('/students')->with('success', 'Étudiant a été supprimé');
+        return redirect()->route('students.index')->with('success', 'Élève supprimé');
     }
 }

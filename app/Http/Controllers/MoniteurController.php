@@ -3,48 +3,47 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Moniteur;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class MoniteurController extends Controller
 {
+    
+
     public function index()
     {
-        $moniteurs = Moniteur::all();
+        $moniteurs = User::role('moniteur')->get();
         return view('moniteurs.index', compact('moniteurs'));
     }
 
     public function create()
     {
-        return view('moniteurs.create');
+        $users = User::all(); // Récupère tous les utilisateurs existants
+        return view('moniteurs.create', compact('users'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:moniteurs',
-            'phone_number' => 'required'
+            'user_id' => 'required|exists:users,id'
         ]);
 
-        $moniteur = new Moniteur([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'phone_number' => $request->get('phone_number')
-        ]);
+        $user = User::findOrFail($request->user_id);
+        $user->assignRole('moniteur');
 
-        $moniteur->save();
-        return redirect('/moniteurs')->with('success', 'Le Moniteur a bien été ajouter');
+        return redirect()->route('moniteurs.index')->with('success', 'Moniteur ajouté');
     }
 
     public function show($id)
     {
-        $moniteur = Moniteur::find($id);
+        $moniteur = User::findOrFail($id);
         return view('moniteurs.show', compact('moniteur'));
     }
 
     public function edit($id)
     {
-        $moniteur = Moniteur::find($id);
+        $moniteur = User::findOrFail($id);
         return view('moniteurs.edit', compact('moniteur'));
     }
 
@@ -52,23 +51,26 @@ class MoniteurController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:moniteurs,email,'.$id,
-            'phone_number' => 'required'
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:6|confirmed'
         ]);
 
-        $moniteur = Moniteur::find($id);
-        $moniteur->name = $request->get('name');
-        $moniteur->email = $request->get('email');
-        $moniteur->phone_number = $request->get('phone_number');
-
+        $moniteur = User::findOrFail($id);
+        $moniteur->name = $request->name;
+        $moniteur->email = $request->email;
+        if ($request->filled('password')) {
+            $moniteur->password = Hash::make($request->password);
+        }
         $moniteur->save();
-        return redirect('/moniteurs')->with('success', 'Le Moniteur a été mis à jour');
+
+        return redirect()->route('moniteurs.index')->with('success', 'Moniteur mis à jour');
     }
 
     public function destroy($id)
     {
-        $moniteur = Moniteur::find($id);
+        $moniteur = User::findOrFail($id);
+        $moniteur->removeRole('moniteur');
         $moniteur->delete();
-        return redirect('/moniteurs')->with('success', 'LE Moniteur a été supprimer');
+        return redirect()->route('moniteurs.index')->with('success', 'Moniteur supprimé');
     }
 }

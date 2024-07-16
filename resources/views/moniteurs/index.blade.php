@@ -12,19 +12,17 @@
     <table class="table mt-3">
         <thead>
             <tr>
-                <th class="border border-black border-4 m-2">Nom</th>
-                <th class="border border-black border-4 m-2">Email</th>
-                <th class="border border-black border-4 m-2">Numéro de téléphone</th>
-                <th class="border border-black border-4 m-2">Actions</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($moniteurs as $moniteur)
                 <tr>
-                    <td class="border border-black border-4 m-2">{{ $moniteur->name }}</td>
-                    <td class="border border-black border-4 m-2">{{ $moniteur->email }}</td>
-                    <td class="border border-black border-4 m-2">{{ $moniteur->phone_number }}</td>
-                    <td class="border border-black border-4 m-2">
+                    <td>{{ $moniteur->name }}</td>
+                    <td>{{ $moniteur->email }}</td>
+                    <td>
                         <a href="{{ route('moniteurs.show', $moniteur->id) }}" class="btn btn-info">Voir</a>
                         <a href="{{ route('moniteurs.edit', $moniteur->id) }}" class="btn btn-warning">Modifier</a>
                         <form action="{{ route('moniteurs.destroy', $moniteur->id) }}" method="POST" style="display:inline;">
@@ -38,6 +36,4 @@
         </tbody>
     </table>
 </div>
-<a href="{{ route('dashboard') }}" class="text-blue-500 hover:text-blue-700">{{ __('Retour') }}</a>
-
 @endsection
