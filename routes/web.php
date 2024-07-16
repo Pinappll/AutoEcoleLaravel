@@ -6,16 +6,18 @@ use Illuminate\Support\Facades\App;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MoniteurController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\StudentController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -95,6 +97,14 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 // lesson route
 Route::middleware(['auth'])->group(function () {
     Route::resource('lessons', LessonController::class);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/eleve/dashboard', [DashboardController::class, 'eleveDashboard'])->name('eleve.dashboard');
+    Route::get('/moniteur/dashboard', [DashboardController::class, 'moniteurDashboard'])->name('moniteur.dashboard');
+    Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
+    Route::get('/superadmin/dashboard', [DashboardController::class, 'superadminDashboard'])->name('superadmin.dashboard');
+    Route::get('/no_role', [DashboardController::class, 'noRole'])->name('no_role');
 });
 
 

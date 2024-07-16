@@ -14,62 +14,49 @@ class AdminController extends Controller
 {
     public function index()
     {
-        // Récupère tous les utilisateurs ayant le rôle 'admin'
         $admins = User::role('admin')->get();
         return view('admins.index', compact('admins'));
     }
 
     public function create()
     {
-        return view('admins.create');
+        // Exclure les utilisateurs avec n'importe quel rôle
+        $users = User::whereDoesntHave('roles')->get();
+        return view('admins.create', compact('users'));
     }
 
     public function store(Request $request)
     {
-        // Validation des données du formulaire
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed'
+            'user_id' => 'required|exists:users,id'
         ]);
 
-        // Création d'un nouvel utilisateur
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        // Assignation du rôle 'admin' à l'utilisateur
+        $user = User::findOrFail($request->user_id);
         $user->assignRole('admin');
 
-        return redirect()->route('admins.index')->with('success', 'Administrateur a été ajouté');
+        return redirect()->route('admins.index')->with('success', 'Administrateur ajouté');
     }
 
     public function show($id)
     {
-        // Récupération d'un utilisateur spécifique
         $admin = User::findOrFail($id);
         return view('admins.show', compact('admin'));
     }
 
     public function edit($id)
     {
-        // Récupération d'un utilisateur spécifique pour édition
         $admin = User::findOrFail($id);
         return view('admins.edit', compact('admin'));
     }
 
     public function update(Request $request, $id)
     {
-        // Validation des données du formulaire
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|min:6|confirmed'
         ]);
 
-        // Mise à jour de l'utilisateur
         $admin = User::findOrFail($id);
         $admin->name = $request->name;
         $admin->email = $request->email;
@@ -78,14 +65,14 @@ class AdminController extends Controller
         }
         $admin->save();
 
-        return redirect()->route('admins.index')->with('success', 'Administrateur a été mis à jour');
+        return redirect()->route('admins.index')->with('success', 'Administrateur mis à jour');
     }
 
     public function destroy($id)
     {
-        // Suppression de l'utilisateur
         $admin = User::findOrFail($id);
+        $admin->removeRole('admin');
         $admin->delete();
-        return redirect()->route('admins.index')->with('success', 'Administrateur a été supprimé');
+        return redirect()->route('admins.index')->with('success', 'Administrateur supprimé');
     }
 }

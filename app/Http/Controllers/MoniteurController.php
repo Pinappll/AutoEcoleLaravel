@@ -19,7 +19,8 @@ class MoniteurController extends Controller
 
     public function create()
     {
-        $users = User::all(); // Récupère tous les utilisateurs existants
+        // Exclure les utilisateurs avec n'importe quel rôle
+        $users = User::whereDoesntHave('roles')->get();
         return view('moniteurs.create', compact('users'));
     }
 
