@@ -9,13 +9,43 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    @if(auth()->user()->admin)
-                        <a href="{{ route('admin') }}" class="text-blue-500 hover:text-blue-700">{{ __('Administration') }}</a>
-                    @else
-                        <a href="{{ route('eleves.show', ['eleve' => auth()->user()->id]) }}" class="text-blue-500 hover:text-blue-700">{{ __('Mon espace personnel') }}</a>
-                    @endif
+                   
+                        <a href="{{ route('moniteurs.index') }}" class="text-blue-500 hover:text-blue-700">{{ __('Liste des moniteurs') }}</a>
                 </div>
             </div>
         </div>
+        <br>
+
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                   
+                    <a href="{{ route('cars.index') }}" class="text-blue-500 hover:text-blue-700">{{ __('Liste des voitures') }}</a>
+
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                   
+                    <a href="{{ route('students.index') }}" class="text-blue-500 hover:text-blue-700">{{ __('Liste des élèves') }}</a>
+
+                </div>
+            </div>
+        </div>
+        <br>
+        @role('superadmin')
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                   
+                    <a href="{{ route('admins.index') }}" class="text-blue-500 hover:text-blue-700">{{ __('Liste des admins') }}</a>
+
+                </div>
+            </div>
+        </div>
+        @endrole
     </div>
 </x-app-layout>

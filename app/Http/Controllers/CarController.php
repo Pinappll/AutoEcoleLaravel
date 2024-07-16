@@ -3,7 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;
-
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 class CarController extends Controller
 {
     public function index()

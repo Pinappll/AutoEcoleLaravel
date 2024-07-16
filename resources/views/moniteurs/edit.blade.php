@@ -1,22 +1,29 @@
 @extends('layouts.layout')
 
 @section('content')
-    <h1>Modifier le Moniteur</h1>
+<div class="container p-4">
+    <h1 class="font-semibold text-2xl">Modifier le Moniteur</h1>
     <form action="{{ route('moniteurs.update', $moniteur->id) }}" method="POST">
         @csrf
         @method('PUT')
-        <div>
+        <div class="form-group">
             <label for="name">Nom :</label>
-            <input type="text" name="name" id="name" value="{{ $moniteur->name }}" required>
+            <input type="text" name="name" id="name" class="form-control" value="{{ $moniteur->name }}" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="email">Email :</label>
-            <input type="email" name="email" id="email" value="{{ $moniteur->email }}" required>
+            <input type="email" name="email" id="email" class="form-control" value="{{ $moniteur->email }}" required>
         </div>
-        <div>
-            <label for="phone_number">Numéro de téléphone :</label>
-            <input type="text" name="phone_number" id="phone_number" value="{{ $moniteur->phone_number }}" required>
+        <div class="form-group">
+            <label for="password">Mot de passe (laisser vide pour conserver le mot de passe actuel) :</label>
+            <input type="password" name="password" id="password" class="form-control">
         </div>
-        <button type="submit">Mettre à jour</button>
+        <div class="form-group">
+            <label for="password_confirmation">Confirmer le mot de passe :</label>
+            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        <a href="{{ route('moniteurs.index') }}" class="btn btn-secondary">Annuler</a>
     </form>
+</div>
 @endsection

@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container p-4">
-    <h1 class="font-semibold text-2xl">Ajouter un Moniteur</h1>
-    <form action="{{ route('moniteurs.store') }}" method="POST">
+    <h1 class="font-semibold text-2xl">Ajouter un Élève</h1>
+    <form action="{{ route('students.store') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="user_id">Sélectionner un Utilisateur :</label>

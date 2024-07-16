@@ -48,4 +48,6 @@
         </tbody>
     </table>
 </div>
+<a href="{{ route('dashboard') }}" class="text-blue-500 hover:text-blue-700">{{ __('Retour') }}</a>
+
 @endsection
