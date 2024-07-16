@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\App;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MoniteurController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
@@ -89,6 +90,11 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
         'update' => 'cars.update',
         'destroy' => 'cars.destroy',
     ]);
+});
+
+// lesson route
+Route::middleware(['auth'])->group(function () {
+    Route::resource('lessons', LessonController::class);
 });
 
 
