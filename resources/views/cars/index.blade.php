@@ -48,13 +48,15 @@
         </tbody>
     </table>
 </div>
-@php
-    $user = Auth::user();
-@endphp
 
-@if ($user->hasRole('admin'))
-    <a href="{{ url('/admin/dashboard') }}" class="text-blue-500 hover:text-blue-700">{{ __('Retour') }}</a>
-@elseif ($user->hasRole('superadmin'))
-    <a href="{{ url('/superadmin/dashboard') }}" class="text-blue-500 hover:text-blue-700">{{ __('Retour') }}</a>
-@endif
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="p-6 text-gray-900 dark:text-gray-100">
+            
+            <a href="{{  route('redirectToDashboard')  }}" class="text-blue-500 hover:text-blue-700">{{ __('Retour') }}</a>
+
+        </div>
+    </div>
+</div>
+
 @endsection

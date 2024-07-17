@@ -20,4 +20,18 @@
         </div>
         <div class="form-group">
             <label for="password_confirmation">Confirmer le mot de passe :</label>
-            <input type="password" name="password_confirmation"
+            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        <a href="{{ route('students.index') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="p-6 text-gray-900 dark:text-gray-100">
+            
+            <a href="{{  route('redirectToDashboard')  }}" class="text-blue-500 hover:text-blue-700">{{ __('Retour') }}</a>
+
+        </div>
+    </div>
+</div>

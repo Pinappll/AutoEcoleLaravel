@@ -5,4 +5,5 @@
     <h1 class="font-semibold text-2xl">Bienvenue, {{ Auth::user()->name }}</h1>
     <p>Bienvenue sur votre tableau de bord des élèves.</p>
 </div>
+
 @endsection
