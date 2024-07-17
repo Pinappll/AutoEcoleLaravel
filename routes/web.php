@@ -48,6 +48,11 @@ Route::middleware('auth')->group(function () {
 //     Route::resource('cars', CarController::class);
 // });
 
+// // lesson route
+// Route::middleware(['auth'])->group(function () {
+//     Route::resource('lessons', LessonController::class);
+// });
+
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::resource('admins', AdminController::class)->names([
         'index' => 'admins.index',
@@ -92,10 +97,21 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     ]);
 });
 
-// lesson route
-Route::middleware(['auth'])->group(function () {
-    Route::resource('lessons', LessonController::class);
+Route::middleware(['auth', 'role:moniteur'])->group(function () {
+    Route::resource('lessons', LessonController::class)->names([
+        'index' => 'lessons.index',
+        'create' => 'lessons.create',
+        'store' => 'lessons.store',
+        'show' => 'lessons.show',
+        'edit' => 'lessons.edit',
+        'update' => 'lessons.update',
+        'destroy' => 'lessons.destroy',
+    ]);
 });
+
+
+
+
 
 
 require __DIR__.'/auth.php';
