@@ -99,7 +99,7 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     ]);
 });
 
-Route::middleware(['auth', 'role:moniteur'])->group(function () {
+Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     Route::resource('lessons', LessonController::class)->names([
         'index' => 'lessons.index',
         'create' => 'lessons.create',

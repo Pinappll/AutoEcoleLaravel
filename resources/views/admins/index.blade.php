@@ -36,4 +36,5 @@
         </tbody>
     </table>
 </div>
+<a href="{{ url('/superadmin/dashboard') }}" class="text-blue-500 hover:text-blue-700">{{ __('Retour') }}</a>
 @endsection

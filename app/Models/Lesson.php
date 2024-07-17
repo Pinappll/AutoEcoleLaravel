@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,12 +21,12 @@ class Lesson extends Model
 
     public function moniteur()
     {
-        return $this->belongsTo(Moniteur::class);
+        return $this->belongsTo(User::class, 'moniteur_id');
     }
 
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(User::class, 'student_id');
     }
 
     public function car()
