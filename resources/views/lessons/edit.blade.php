@@ -26,6 +26,30 @@
             <label for="end_time" class="form-label">Heure de fin</label>
             <input type="time" class="form-control" id="end_time" name="end_time" value="{{ $lesson->end_time }}" required>
         </div>
+        <div class="mb-3">
+            <label for="moniteur_id" class="form-label">Moniteur</label>
+            <select class="form-control" id="moniteur_id" name="moniteur_id">
+                @foreach($moniteurs as $moniteur)
+                    <option value="{{ $moniteur->id }}" {{ $lesson->moniteur_id == $moniteur->id ? 'selected' : '' }}>{{ $moniteur->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="student_id" class="form-label">Élève</label>
+            <select class="form-control" id="student_id" name="student_id">
+                @foreach($students as $student)
+                    <option value="{{ $student->id }}" {{ $lesson->student_id == $student->id ? 'selected' : '' }}>{{ $student->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="car_id" class="form-label">Voiture</label>
+            <select class="form-control" id="car_id" name="car_id">
+                @foreach($cars as $car)
+                    <option value="{{ $car->id }}" {{ $lesson->car_id == $car->id ? 'selected' : '' }}>{{ $car->marque }} {{ $car->modele }}</option>
+                @endforeach
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Mettre à jour</button>
     </form>
 </div>

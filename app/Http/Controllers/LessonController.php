@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Lesson;
+use App\Models\Car;
+use App\Models\User;
 
 class LessonController extends Controller
 {
@@ -15,7 +17,10 @@ class LessonController extends Controller
 
     public function create()
     {
-        return view('lessons.create');
+        $moniteurs = User::role('moniteur')->get();
+        $students = User::role('eleve')->get();
+        $cars = Car::all();
+        return view('lessons.create', compact('moniteurs', 'students', 'cars'));
     }
 
     public function store(Request $request)
@@ -26,6 +31,9 @@ class LessonController extends Controller
             'date' => 'required|date',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
+            'moniteur_id' => 'required|exists:users,id',
+            'student_id' => 'required|exists:users,id',
+            'car_id' => 'required|exists:cars,id',
         ]);
 
         Lesson::create($request->all());
@@ -42,7 +50,10 @@ class LessonController extends Controller
     public function edit($id)
     {
         $lesson = Lesson::findOrFail($id);
-        return view('lessons.edit', compact('lesson'));
+        $moniteurs = User::role('moniteur')->get();
+        $students = User::role('eleve')->get();
+        $cars = Car::all();
+        return view('lessons.edit', compact('lesson', 'moniteurs', 'students', 'cars'));
     }
 
     public function update(Request $request, $id)
@@ -53,6 +64,9 @@ class LessonController extends Controller
             'date' => 'required|date',
             'start_time' => 'required|date_format:H:i:s',
             'end_time' => 'required|date_format:H:i:s|after:start_time',
+            'moniteur_id' => 'required|exists:users,id',
+            'student_id' => 'required|exists:users,id',
+            'car_id' => 'required|exists:cars,id',
         ]);
 
         $lesson = Lesson::findOrFail($id);
@@ -68,6 +82,5 @@ class LessonController extends Controller
 
         return redirect()->route('lessons.index')->with('success', 'Leçon supprimée avec succès.');
     }
-
-    
 }
+

@@ -45,6 +45,16 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        if ($user->hasRole('eleve')) {
+            return redirect()->route('eleve.dashboard');
+        } elseif ($user->hasRole('moniteur')) {
+            return redirect()->route('moniteur.dashboard');
+        } elseif ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->hasRole('superadmin')) {
+            return redirect()->route('superadmin.dashboard');
+        } elseif (!$user->roles->count()) {
+            return redirect()->route('no_role');
+        }
     }
 }
