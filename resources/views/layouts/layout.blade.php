@@ -10,7 +10,6 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -20,14 +19,20 @@
             @include('layouts.navigation')
 
             <!-- Page Heading -->
-            @isset($header)
+             
+            
                 <header class="bg-white dark:bg-gray-800 shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+                        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <a href="{{  route('redirectToDashboard')  }}"> {{ __('Dashboard') }} </a> | <a href="{{  url('/')  }}"> {{ __('Retour au site') }} </a>
+        </h2>
+                        </h1>
                     </div>
                 </header>
-            @endisset
+        
     <main>
+        
         @yield('content')
     </main>
     <footer>
