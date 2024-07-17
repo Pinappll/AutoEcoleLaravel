@@ -12,7 +12,7 @@ use App\Http\Controllers\StudentController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 // Route::get('/dashboard', function () {
@@ -119,6 +119,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/no_role', [DashboardController::class, 'noRole'])->name('no_role');
 });
 
+Route::get('/dashboard', [DashboardController::class, 'redirectToDashboard'])->name('redirectToDashboard');
 
 
 
