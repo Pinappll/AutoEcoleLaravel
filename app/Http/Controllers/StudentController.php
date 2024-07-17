@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
-    
-
     public function index()
     {
         $students = User::role('eleve')->get();
@@ -71,7 +69,6 @@ class StudentController extends Controller
     {
         $student = User::findOrFail($id);
         $student->removeRole('eleve');
-        $student->delete();
-        return redirect()->route('students.index')->with('success', 'Élève supprimé');
+        return redirect()->route('students.index')->with('success', 'Le rôle élève a été retiré');
     }
 }

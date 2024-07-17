@@ -1,6 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
+
 <div class="container p-4">
     <h1 class="font-semibold text-2xl">Liste des Moniteurs</h1>
     <a href="{{ route('moniteurs.create') }}" class="btn btn-primary">Ajouter un Moniteur</a>

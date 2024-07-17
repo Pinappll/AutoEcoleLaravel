@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class MoniteurController extends Controller
 {
-    
-
     public function index()
     {
         $moniteurs = User::role('moniteur')->get();
@@ -71,7 +69,6 @@ class MoniteurController extends Controller
     {
         $moniteur = User::findOrFail($id);
         $moniteur->removeRole('moniteur');
-        $moniteur->delete();
-        return redirect()->route('moniteurs.index')->with('success', 'Moniteur supprimé');
+        return redirect()->route('moniteurs.index')->with('success', 'Le rôle moniteur a été retiré');
     }
 }
