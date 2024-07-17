@@ -8,7 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -28,7 +29,20 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = Auth::user();
+
+        if ($user->hasRole('eleve')) {
+            return redirect()->route('eleve.dashboard');
+        } elseif ($user->hasRole('moniteur')) {
+            return redirect()->route('moniteur.dashboard');
+        } elseif ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->hasRole('superadmin')) {
+            return redirect()->route('superadmin.dashboard');
+        } elseif (!$user->roles->count()) {
+            return redirect()->route('no_role');
+        }
+
     }
 
     /**
