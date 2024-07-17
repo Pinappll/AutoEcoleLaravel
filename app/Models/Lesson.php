@@ -15,5 +15,23 @@ class Lesson extends Model
         'date',
         'start_time',
         'end_time',
+        'moniteur_id',
+        'student_id',
+        'car_id',
     ];
+
+    public function moniteur()
+    {
+        return $this->belongsTo(Moniteur::class);
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
 }
