@@ -20,6 +20,8 @@ class DashboardController extends Controller
             return redirect()->route('admin.dashboard');
         } elseif ($user->hasRole('superadmin')) {
             return redirect()->route('superadmin.dashboard');
+        }else {
+            return redirect()->route('no.role');
         }
 
         // Optionally, handle the case where the user does not have any role

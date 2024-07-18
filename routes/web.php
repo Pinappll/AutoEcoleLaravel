@@ -119,7 +119,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/no_role', [DashboardController::class, 'noRole'])->name('no_role')->middleware('no_role');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'redirectToDashboard'])->name('redirectToDashboard');
+Route::get('/dashboard', [DashboardController::class, 'redirectToDashboard'])->name('redirectToDashboard')->middleware('auth')->middleware('role.redirect')->middleware('no_role');
 
 
 
