@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'role.redirect' => \App\Http\Middleware\RedirectIfNoRole::class,
+            'no_role' => \App\Http\Middleware\NoRoleMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
