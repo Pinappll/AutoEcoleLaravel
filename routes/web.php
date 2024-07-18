@@ -112,11 +112,11 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/eleve/dashboard', [DashboardController::class, 'eleveDashboard'])->name('eleve.dashboard');
-    Route::get('/moniteur/dashboard', [DashboardController::class, 'moniteurDashboard'])->name('moniteur.dashboard');
-    Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
-    Route::get('/superadmin/dashboard', [DashboardController::class, 'superadminDashboard'])->name('superadmin.dashboard');
-    Route::get('/no_role', [DashboardController::class, 'noRole'])->name('no_role');
+    Route::get('/eleve/dashboard', [DashboardController::class, 'eleveDashboard'])->name('eleve.dashboard')->middleware('role:eleve');
+    Route::get('/moniteur/dashboard', [DashboardController::class, 'moniteurDashboard'])->name('moniteur.dashboard')->middleware('role:moniteur');
+    Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard')->middleware('role:admin');
+    Route::get('/superadmin/dashboard', [DashboardController::class, 'superadminDashboard'])->name('superadmin.dashboard')->middleware('role:superadmin');
+    Route::get('/no_role', [DashboardController::class, 'noRole'])->name('no_role')->middleware('no_role');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'redirectToDashboard'])->name('redirectToDashboard');
