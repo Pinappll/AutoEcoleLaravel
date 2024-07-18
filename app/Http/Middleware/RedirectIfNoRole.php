@@ -15,9 +15,9 @@ class RedirectIfNoRole
     public function handle(Request $request, Closure $next)
     {
         $user = Auth::user();
-
+        
         if ($user->hasRole('eleve')) {
-            return redirect()->route('student.dashboard');
+            return redirect()->route('eleve.dashboard');
         } elseif ($user->hasRole('moniteur')) {
             return redirect()->route('moniteur.dashboard');
         } elseif ($user->hasRole('admin')) {

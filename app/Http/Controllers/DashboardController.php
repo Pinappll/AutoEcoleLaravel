@@ -11,7 +11,7 @@ class DashboardController extends Controller
     public function redirectToDashboard()
     {
         $user = Auth::user();
-
+        
         if ($user->hasRole('eleve')) {
             return redirect()->route('eleve.dashboard');
         } elseif ($user->hasRole('moniteur')) {
