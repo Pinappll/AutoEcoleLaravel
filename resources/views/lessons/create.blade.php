@@ -3,8 +3,18 @@
 @section('content')
 <div class="container">
     <h1>Ajouter une Leçon</h1>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('lessons.store') }}" method="POST">
         @csrf
+        <input type="hidden" value="{{ $id_user }}" name="student_id">
         <div class="mb-3">
             <label for="title" class="form-label">Titre</label>
             <input type="text" class="form-control" id="title" name="title" required>
@@ -30,14 +40,6 @@
             <select class="form-control" id="moniteur_id" name="moniteur_id">
                 @foreach($moniteurs as $moniteur)
                     <option value="{{ $moniteur->id }}">{{ $moniteur->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="student_id" class="form-label">Élève</label>
-            <select class="form-control" id="student_id" name="student_id">
-                @foreach($students as $student)
-                    <option value="{{ $student->id }}">{{ $student->name }}</option>
                 @endforeach
             </select>
         </div>

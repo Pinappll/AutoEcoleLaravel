@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Lesson;
 use App\Models\Car;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class LessonController extends Controller
 {
@@ -18,14 +19,14 @@ class LessonController extends Controller
     public function create()
     {
         $moniteurs = User::role('moniteur')->get();
-        $students = User::role('eleve')->get();
+        $id_user = Auth::id();
         $cars = Car::all();
-        return view('lessons.create', compact('moniteurs', 'students', 'cars'));
+        return view('lessons.create', compact('moniteurs', 'cars','id_user'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'date' => 'required|date',
@@ -35,10 +36,10 @@ class LessonController extends Controller
             'student_id' => 'required|exists:users,id',
             'car_id' => 'required|exists:cars,id',
         ]);
+        Lesson::create($validated);
+           
+        return redirect()->route('eleve.dashboard')->with('success', 'Leçon créée avec succès.');
 
-        Lesson::create($request->all());
-
-        return redirect()->route('lessons.index')->with('success', 'Leçon créée avec succès.');
     }
 
     public function show($id)

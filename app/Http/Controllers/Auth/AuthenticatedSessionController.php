@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,11 +29,11 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
         $user = Auth::user();
-
+        $userFromDb = User::find(['id'=>Auth::user()->id])[0];
+        $token = $userFromDb->createToken($userFromDb->name)->plainTextToken;
         if ($user->hasRole('eleve')) {
-            return redirect()->route('eleve.dashboard');
+            return redirect()->route('eleve.dashboard',headers:['token' => $token]);
         } elseif ($user->hasRole('moniteur')) {
             return redirect()->route('moniteur.dashboard');
         } elseif ($user->hasRole('admin')) {

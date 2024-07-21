@@ -18,6 +18,10 @@ class Lesson extends Model
         'student_id',
         'car_id',
     ];
+    protected $cast=[
+        'start_time'=>'datetime',
+        'end_time'=>'datetime',
+    ];
 
     public function moniteur()
     {
