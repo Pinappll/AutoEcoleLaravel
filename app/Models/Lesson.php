@@ -33,4 +33,9 @@ class Lesson extends Model
     {
         return $this->belongsTo(Car::class);
     }
+
+    public function lesson()
+    {
+        return $this->belongsTo(Lessons::class);
+    }
 }

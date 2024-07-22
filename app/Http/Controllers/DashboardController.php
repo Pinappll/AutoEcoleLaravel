@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Lesson;
 
 
 class DashboardController extends Controller
@@ -40,7 +41,9 @@ class DashboardController extends Controller
 
     public function adminDashboard()
     {
-        return view('admins.dashboard');
+        $lessons = Lesson::with(['student', 'moniteur', 'car', 'lesson'])->get();
+        return view('admins.dashboard', compact('lessons'));
+        //return view('admins.dashboard');
     }
 
     public function superadminDashboard()
