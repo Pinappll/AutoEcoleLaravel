@@ -13,9 +13,15 @@ class LessonController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $lessons = Lesson::where('user_id', $user->id)->get();
+        if ($user->hasRole('eleve')) {
+            $lessons = Lesson::where('student_id', $user->id)->get();
+        } elseif ($user->hasRole('moniteur')) {
+            $lessons = Lesson::where('moniteur_id', $user->id)->get();
+        } else {
+            $lessons = Lesson::all();
+        }
 
-        return response()->json($user);
+        return response()->json($lessons);
     }
     public function store(Request $request)
     {

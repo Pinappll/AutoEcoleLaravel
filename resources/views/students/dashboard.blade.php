@@ -15,5 +15,9 @@
             <div id='calendar'></div>
         </div>
     </div>
+    
 </div>
+<script>
+    localStorage.setItem('authToken', '{{ $authToken }}');
+</script>
 @endsection
