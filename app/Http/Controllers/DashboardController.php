@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Lesson;
@@ -12,7 +13,6 @@ class DashboardController extends Controller
     public function redirectToDashboard()
     {
         $user = Auth::user();
-        
         if ($user->hasRole('eleve')) {
             return redirect()->route('eleve.dashboard');
         } elseif ($user->hasRole('moniteur')) {
@@ -29,14 +29,25 @@ class DashboardController extends Controller
         return redirect('/'); // Or any other route you prefer
     }
     
-    public function eleveDashboard()
-    {
-        return view('students.dashboard');
-    }
+    public function eleveDashboard(Request $request)
+{   
+        $user= User::where('id', Auth::user()->id)->get()[0];
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return view('students.dashboard', [
+            'dataLesson' => json_encode('salut world'),
+            'authToken' => $token,
+        ]);
+}
 
     public function moniteurDashboard()
-    {
-        return view('moniteurs.dashboard');
+    { $user= User::where('id', Auth::user()->id)->get()[0];
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return view('moniteurs.dashboard',[
+            'dataLesson' => json_encode('salut world'),
+            'authToken' => $token,
+        ]);
     }
 
     public function adminDashboard()

@@ -9,6 +9,8 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\StudentController;
+use App\Http\Resources\Lesson;
+use App\Http\Resources\LessonResource;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
@@ -102,12 +104,16 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     Route::resource('lessons', LessonController::class)->names([
         'index' => 'lessons.index',
-        'create' => 'lessons.create',
         'store' => 'lessons.store',
         'show' => 'lessons.show',
         'edit' => 'lessons.edit',
         'update' => 'lessons.update',
         'destroy' => 'lessons.destroy',
+    ]);
+});
+Route::middleware(['auth', 'role:eleve'])->group(function () {
+    Route::resource('lessons', LessonController::class)->names([
+        'create' => 'lessons.create',
     ]);
 });
 

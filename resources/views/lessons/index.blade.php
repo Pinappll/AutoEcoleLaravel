@@ -3,7 +3,6 @@
 @section('content')
 <div class="container">
     <h1>Liste des Leçons</h1>
-    <a href="{{ route('lessons.create') }}" class="btn btn-primary">Ajouter une Leçon</a>
     @if(session('success'))
         <div class="alert alert-success mt-3">
             {{ session('success') }}
