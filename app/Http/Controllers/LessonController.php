@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Auth;
 
 class LessonController extends Controller
 {
+    protected $smsService;
+
+    
+    
     public function index()
     {
         $lessons = Lesson::all();
@@ -101,7 +105,11 @@ class LessonController extends Controller
         }
     
         // Enregistrer la leçon si aucun conflit n'est détecté
-        Lesson::create($validated);
+       Lesson::create($validated);
+
+        // $student = User::find($validated['student_id']);
+        // $message = "Bonjour {$student->name}, vous êtes inscrit à la leçon de conduite le {$lesson->date} de {$lesson->start_time} à {$lesson->end_time}.";
+        // $this->smsService->sendSms($student->phone_number, $message);
     
         return redirect()->route('eleve.dashboard')->with('success', 'Leçon créée avec succès.');
     }

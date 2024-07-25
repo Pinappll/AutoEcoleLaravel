@@ -12,7 +12,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Resources\Lesson;
 use App\Http\Resources\LessonResource;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-
+use App\Http\Controllers\TwilioSMSController;
 Route::get('/', function () {
     return view('home');
 });
@@ -127,7 +127,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/dashboard', [DashboardController::class, 'redirectToDashboard'])->name('redirectToDashboard')->middleware('auth')->middleware('role.redirect')->middleware('no_role');
 
-
+Route::get('/test-sms', [TwilioSMSController::class, 'index']);
 
 
 
