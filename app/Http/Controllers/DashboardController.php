@@ -59,7 +59,9 @@ class DashboardController extends Controller
 
     public function superadminDashboard()
     {
-        return view('superadmin.dashboard');
+        $lessons = Lesson::with(['student', 'moniteur', 'car', 'lesson'])->get();
+        return view('superadmin.dashboard', compact('lessons'));
+        //return view('admins.dashboard');
     }
 
     public function noRole()
